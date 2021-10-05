@@ -7,6 +7,7 @@ from string import Template
 import subprocess
 import distutils.core
 import sys
+from string import Template
 
 parser = argparse.ArgumentParser(description='Pos publisher publishes pos experiments')
 parser.add_argument('-x', '--experiment_path', required=True,
@@ -196,6 +197,7 @@ def create_experiments():
             content += par_template.substitute(content='') # distance
             content += small_title_template.substitute(title='Load Generator')
             content += par_template.substitute(content=LOADGEN_NODE_EXPLANATION)
+            print(hostname)
             content += script_template.substitute(title='Local parameters', code=json.dumps(variables[hostname], indent=4, sort_keys=True))
             content += script_template.substitute(title='Setup script', code=loadgen_setup)
             content += script_template.substitute(title='Measurement script', code=loadgen_experiment)
@@ -232,8 +234,15 @@ def create_experiments():
 
         i += 1
 
-create_experiments()
+def configure_git_repo(gitrepo):
+    with open('_config.yml', 'r') as fil:
+        src = Template(fil.read())
+        result = src.substitute({'git_repo': gitrepo})
+    with open('_config.yml', 'w') as fil:
+        fil.write(result)
 
+create_experiments()
+configure_git_repo(args.git_repo)
 
 #print(EXPERIMENT_PATH)
 #print(RESULT_PATHS)

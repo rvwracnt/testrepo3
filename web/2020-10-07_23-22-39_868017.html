@@ -13,17 +13,17 @@
 					<div class="inner-content">
 						<h1 id="the-chair-of-br-network-architectures-and-services">Experiment 0</h1>
 						<p></p>
-<figure style="text-align:center;"><img src="../figures/gallenmu_201007_232239_868017_pkt_sz-1500_loop_avg_mpps.svg" /><figcaption>figures/gallenmu_201007_232239_868017_pkt_sz-1500_loop_avg_mpps</figcaption></figure>
-<figure style="text-align:center;"><img src="../figures/gallenmu_201007_232239_868017_pkt_sz-1280_loop_avg_mpps.svg" /><figcaption>figures/gallenmu_201007_232239_868017_pkt_sz-1280_loop_avg_mpps</figcaption></figure>
-<figure style="text-align:center;"><img src="../figures/gallenmu_201007_232239_868017_pkt_sz-1024_loop_avg_mpps.svg" /><figcaption>figures/gallenmu_201007_232239_868017_pkt_sz-1024_loop_avg_mpps</figcaption></figure>
+<figure style="text-align:center;"><img src="../figures/gallenmu_201007_232239_868017_pkt_sz-64_loop_avg_mpps.svg" /><figcaption>figures/gallenmu_201007_232239_868017_pkt_sz-64_loop_avg_mpps</figcaption></figure>
 <figure style="text-align:center;"><img src="../figures/gallenmu_201007_232239_868017_pkt_sz-512_loop_avg_mpps.svg" /><figcaption>figures/gallenmu_201007_232239_868017_pkt_sz-512_loop_avg_mpps</figcaption></figure>
 <figure style="text-align:center;"><img src="../figures/gallenmu_201007_232239_868017_pkt_sz-256_loop_avg_mpps.svg" /><figcaption>figures/gallenmu_201007_232239_868017_pkt_sz-256_loop_avg_mpps</figcaption></figure>
+<figure style="text-align:center;"><img src="../figures/gallenmu_201007_232239_868017_pkt_sz-1500_loop_avg_mpps.svg" /><figcaption>figures/gallenmu_201007_232239_868017_pkt_sz-1500_loop_avg_mpps</figcaption></figure>
 <figure style="text-align:center;"><img src="../figures/gallenmu_201007_232239_868017_pkt_sz-128_loop_avg_mpps.svg" /><figcaption>figures/gallenmu_201007_232239_868017_pkt_sz-128_loop_avg_mpps</figcaption></figure>
-<figure style="text-align:center;"><img src="../figures/gallenmu_201007_232239_868017_pkt_sz-64_loop_avg_mpps.svg" /><figcaption>figures/gallenmu_201007_232239_868017_pkt_sz-64_loop_avg_mpps</figcaption></figure>
+<figure style="text-align:center;"><img src="../figures/gallenmu_201007_232239_868017_pkt_sz-1280_loop_avg_mpps.svg" /><figcaption>figures/gallenmu_201007_232239_868017_pkt_sz-1280_loop_avg_mpps</figcaption></figure>
+<figure style="text-align:center;"><img src="../figures/gallenmu_201007_232239_868017_pkt_sz-1024_loop_avg_mpps.svg" /><figcaption>figures/gallenmu_201007_232239_868017_pkt_sz-1024_loop_avg_mpps</figcaption></figure>
 <p></p>
 <h3>Git Repository</h3>
-<p>All available experiment artifacts are publicly available in a <a href="https://github.com/gallenmu/pos-artifacts">git repository</a>.</p>
-<details><summary>Git clone</summary><pre><code>git clone https://github.com/gallenmu/pos-artifacts /root/pos-artifacts</code></pre></details>
+<p>All available experiment artifacts are publicly available in a <a href="https://github.com/rvwracnt/testrepo2">git repository</a>.</p>
+<details><summary>Git clone</summary><pre><code>git clone https://github.com/rvwracnt/testrepo2 /root/pos-artifacts</code></pre></details>
 <p></p>
 <h3>Experiment Setup</h3>
 <p>The task of this script is the initialization and preparation of the experiment execution. It is executed on the management host.</p>
@@ -71,13 +71,13 @@ echo "reboot experiment hosts..."
 wait
 
 echo "setup experiment hosts..."
-{ pos commands launch --infile loadgen/setup.sh --blocking "$1"; } &
-{ pos commands launch --infile dut/setup.sh --blocking "$2"; } &
+{ pos commands launch --quiet --infile loadgen/setup.sh --blocking "$1"; } &
+{ pos commands launch --quiet --infile dut/setup.sh --blocking "$2"; } &
 wait
 
 echo "execute experiment on hosts..."
-{ pos commands launch --infile loadgen/measurement.sh --blocking --loop "$1"; } &
-{ pos commands launch --infile dut/measurement.sh --blocking --loop "$2"; } &
+{ pos commands launch --quiet --infile loadgen/measurement.sh --blocking --loop "$1"; } &
+{ pos commands launch --quiet --infile dut/measurement.sh --blocking --loop "$2"; } &
 wait
 
 echo "free hosts"
@@ -174,7 +174,6 @@ LOADGEN_EGRESS_IP=$(pos_get_variable --from-global loadgen_egress_ip)
 #ip addr add $LOADGEN_INGRESS_IP/24  dev $LOADGEN_INGRESS_IF
 #ip addr add $LOADGEN_EGRESS_IP/24 dev $LOADGEN_EGRESS_IF
 
-apt-get update
 git clone "$MOONGEN_REPO" "$MOONGEN_DIR"
 cd "$MOONGEN_DIR"
 git checkout "$MOONGEN_REPO_COMMIT"
@@ -269,7 +268,6 @@ LOADGEN_EGRESS_IP=$(pos_get_variable --from-global loadgen_egress_ip)
 #ip addr add $LOADGEN_INGRESS_IP/24  dev $LOADGEN_INGRESS_IF
 #ip addr add $LOADGEN_EGRESS_IP/24 dev $LOADGEN_EGRESS_IF
 
-apt-get update
 git clone "$MOONGEN_REPO" "$MOONGEN_DIR"
 cd "$MOONGEN_DIR"
 git checkout "$MOONGEN_REPO_COMMIT"
@@ -310,7 +308,7 @@ echo "experiment successful"
 <h3>Publication</h3>
 <p>The publication script that created this website.</p>
 <details><summary>Publication script call</summary><pre><code>cd /root/pos-artifacts
- python3 /root/pos-artifacts/publish.py -x /root/pos-artifacts/experiment -r /root/pos-artifacts/results/2020-10-07_23-22-39_868017 -r /root/pos-artifacts/results/2020-10-12_11-20-32_230471 -g https://github.com/gallenmu/pos-artifacts</code></pre></details>
+ python3 publish.py -x /root/pos-artifacts/experiment -r /root/pos-artifacts/results/2020-10-07_23-22-39_868017 -g https://github.com/rvwracnt/testrepo2</code></pre></details>
 
 					</div>
 				</article>
